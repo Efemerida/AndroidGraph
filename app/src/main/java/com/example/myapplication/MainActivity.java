@@ -8,6 +8,8 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.view.MotionEvent;
+import android.view.SurfaceHolder;
+import android.view.SurfaceView;
 import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
@@ -33,20 +35,29 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    public class MyView extends View{
+    class MyView extends SurfaceView {
 
-        Paint paint = new Paint();
-
+        private final SurfaceHolder surfaceHolder;
+        private final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         public MyView(Context context) {
             super(context);
+            surfaceHolder = getHolder();
+            paint.setColor(Color.RED);
+            paint.setStyle(Paint.Style.FILL);
         }
-
 
         @Override
-        protected void onDraw(Canvas canvas) {
-            super.onDraw(canvas);
-            paint.setColor(Color.BLACK);
-            canvas.drawCircle(100,100,100,paint);
+        public boolean onTouchEvent(MotionEvent event){
+            if(event.getAction() == MotionEvent.ACTION_DOWN){
+                if(surfaceHolder.getSurface().isValid()){
+                    Canvas canvas = surfaceHolder.lockCanvas();
+                    canvas.drawColor(Color.BLACK);
+                    canvas.drawCircle(event.getX(), event.getY(), 50, paint);
+                    surfaceHolder.unlockCanvasAndPost(canvas);
+                }
+            }
+            return false;
         }
+
     }
 }
