@@ -1,6 +1,8 @@
 package com.example.myapplication;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,12 +17,14 @@ import java.util.List;
 public class ActionsAdapter extends RecyclerView.Adapter<ActionsAdapter.FunctionsAdapterHolder> {
 
     private final LayoutInflater inflater;
-    List<ImageView> imageViews;
+    List<Drawable> imageViews;
 
 
-    public  ActionsAdapter(Context context, List<ImageView> imageViews){
+    public  ActionsAdapter(Context context, List<Drawable> imageViews){
         this.inflater = LayoutInflater.from(context);
         this.imageViews = imageViews;
+
+
     }
 
     @NonNull
@@ -33,12 +37,13 @@ public class ActionsAdapter extends RecyclerView.Adapter<ActionsAdapter.Function
 
     @Override
     public void onBindViewHolder(@NonNull FunctionsAdapterHolder holder, int position) {
-        holder.kartinka = imageViews.get(position);
+        Log.d("taggg", String.valueOf(imageViews.size()));
+        holder.kartinka.setImageDrawable(imageViews.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return 5;
+        return 6;
     }
 
     class FunctionsAdapterHolder extends RecyclerView.ViewHolder {

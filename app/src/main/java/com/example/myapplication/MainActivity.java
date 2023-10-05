@@ -12,6 +12,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -37,15 +38,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
-        ImageView imageView = new ImageView(this);
-        imageView.setImageResource(R.drawable.ic_launcher_background);
-        List<ImageView> imageViews = new ArrayList<>();
-        imageViews.add(imageView);
-        imageViews.add(imageView);
-        imageViews.add(imageView);
-        imageViews.add(imageView);
-        imageViews.add(imageView);
-        imageViews.add(imageView);
+        Drawable drawable = getDrawable(R.drawable.addpoint);
+        List<Drawable> imageViews = new ArrayList<>();
+        imageViews.add(drawable);
+        imageViews.add(drawable);
+        imageViews.add(drawable);
+        imageViews.add(drawable);
+        imageViews.add(drawable);
+        imageViews.add(drawable);
         recyclerView.setAdapter(new ActionsAdapter(this, imageViews));
 
 
