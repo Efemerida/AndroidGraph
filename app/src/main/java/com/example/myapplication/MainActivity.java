@@ -1,7 +1,10 @@
 package com.example.myapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentContainerView;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -15,32 +18,40 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    Paint paint = new Paint();
 
-    @Override
-    public boolean onTouchEvent(MotionEvent event){
-        int x = (int)event.getX();
-        int y = (int)event.getY();
-
-
-
-        return false;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         MyView myView = new MyView(this);
-        setContentView(myView);
+        setContentView(R.layout.activity_main);
+
+        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+        ImageView imageView = new ImageView(this);
+        imageView.setImageResource(R.drawable.ic_launcher_background);
+        List<ImageView> imageViews = new ArrayList<>();
+        imageViews.add(imageView);
+        imageViews.add(imageView);
+        imageViews.add(imageView);
+        imageViews.add(imageView);
+        imageViews.add(imageView);
+        imageViews.add(imageView);
+        recyclerView.setAdapter(new ActionsAdapter(this, imageViews));
+
+
     }
 
-    class MyView extends View {
+    public static class MyView extends View {
         float touchX;
         float touchY;
         Bitmap bitmap;
@@ -62,14 +73,16 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onDraw(Canvas canvas){
-            for(Point point: points){
+            for(Point point: points) {
                 Paint paint1 = new Paint();
                 paint1.setColor(Color.RED);
                 paint1.setAntiAlias(true);
-                canvas.drawCircle(point.x,point.y,100, paint1);
+                canvas.drawCircle(point.x, point.y, 100, paint1);
             }
-
-
+            TextView textView = new TextView(this.getContext());
+            textView.setText("hehehhehe");
+            textView.setTextColor(Color.BLACK);
+            textView.draw(canvas);
         }
 
 
