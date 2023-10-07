@@ -12,6 +12,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.myapplication.entities.Graph;
+import com.example.myapplication.services.FIleService;
+
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 public class ActionsAdapter extends RecyclerView.Adapter<ActionsAdapter.FunctionsAdapterHolder> {
@@ -25,16 +30,18 @@ public class ActionsAdapter extends RecyclerView.Adapter<ActionsAdapter.Function
 
     private final LayoutInflater inflater;
     List<Drawable> imageViews;
+    FIleService fIleService;
 
     private final OnStateClickListener onStateClickListener;
 
+    private Context context;
 
     public  ActionsAdapter(Context context, List<Drawable> imageViews, OnStateClickListener onStateClickListener){
         this.inflater = LayoutInflater.from(context);
         this.imageViews = imageViews;
         this.onStateClickListener = onStateClickListener;
-
-
+        fIleService = new FIleService();
+        this.context = context;
     }
 
     @NonNull
@@ -56,7 +63,25 @@ public class ActionsAdapter extends RecyclerView.Adapter<ActionsAdapter.Function
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ActionsAdapter.currentStates = States.getState(position);
+                if(position==5){
+                    File file = new File("load.txt");
+                    try {
+                        fIleService.saveGraph(context);
+                        String g = fIleService.loadGraph(file,context);
+                        Log.d("taggg", "ggg iss " + g);
+                        Graph graph = Graph.loadGraph(g);
+                        Log.d("taggg", "graph is " + graph.toString());
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+                if(position==4){
+                    MainActivity.MyView view1 = BlankFragment.view;
+                    view1.clear();
+                }
+                else {
+                    ActionsAdapter.currentStates = States.getState(position);
+                }
             }
         });
     }

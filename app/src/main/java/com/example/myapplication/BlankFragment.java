@@ -24,6 +24,8 @@ public class BlankFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    public static MainActivity.MyView view;
+
     public BlankFragment() {
         // Required empty public constructor
     }
@@ -60,6 +62,7 @@ public class BlankFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         MainActivity.MyView myView = new MainActivity.MyView(this.getContext());
+        BlankFragment.view = myView;
         return myView;
     }
 }

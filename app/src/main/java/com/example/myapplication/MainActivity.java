@@ -37,9 +37,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        MyView myView = new MyView(this);
         setContentView(R.layout.activity_main);
-
 
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         Drawable drawable = getDrawable(R.drawable.addpoint);
@@ -109,7 +107,11 @@ public class MainActivity extends AppCompatActivity {
             textView.setTextColor(Color.BLACK);
             textView.draw(canvas);
         }
-
+        public void clear(){
+            edges.clear();
+            points.clear();
+            invalidate();
+        }
 
         @Override
         public boolean onTouchEvent(MotionEvent event){
@@ -174,6 +176,49 @@ public class MainActivity extends AppCompatActivity {
                             invalidate();
                         }
                     }
+                }
+
+                else if(ActionsAdapter.currentStates.equals(States.DELETE_LINE)){
+                    Vertex tmp  = null;
+                    for(Vertex point: points){
+
+                        if(Math.abs(point.getX()-event.getX())<=point.getRadius()){
+                            if(Math.abs(point.getY()-event.getY())<=point.getRadius()){
+                                tmp = point;
+                            }
+                        }
+                    }
+
+                    if(tmp!=null){
+                        Edge tmpEdge = null;
+                        for(Edge edge:edges){
+                            if(edge.getVertex1().equals(tmp) || edge.getVertex2().equals(tmp)){
+                                if(currEdge==null) {
+                                    currEdge = new Edge();
+                                    currEdge.setVertex1(tmp);
+                                }
+                                else{
+                                    Log.d("taggg", String.valueOf(edge.getVertex1().getX()));
+                                    if(edge.getVertex1().equals(tmp)){
+                                        if(edge.getVertex2().equals(currEdge.getVertex1())){
+                                            tmpEdge = edge;
+                                        }
+                                    }
+                                    if(edge.getVertex2().equals(tmp)){
+                                        if(edge.getVertex1().equals(currEdge.getVertex1())){
+                                            tmpEdge=edge;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        if(tmpEdge!=null){
+                            edges.remove(tmpEdge);
+                            currEdge=null;
+                            invalidate();
+                        }
+                    }
+
                 }
             }
             return true;

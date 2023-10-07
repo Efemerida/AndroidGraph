@@ -15,6 +15,10 @@ public class Vertex {
         this.number = number;
     }
 
+    public Vertex(int number){
+        this.number = number;
+    }
+
     public int getX() {
         return x;
     }
@@ -45,5 +49,15 @@ public class Vertex {
 
     public void setNumber(int number) {
         this.number = number;
+    }
+
+    @Override
+    public String toString() {
+        return "Vertex{" +
+                "x=" + x +
+                ", y=" + y +
+                ", radius=" + radius +
+                ", number=" + number +
+                '}';
     }
 }
