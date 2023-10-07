@@ -1,27 +1,18 @@
 package com.example.myapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentContainerView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
-import android.view.SurfaceHolder;
-import android.view.SurfaceView;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.myapplication.entities.Edge;
@@ -42,14 +33,29 @@ public class MainActivity extends AppCompatActivity {
 
 
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
-        Drawable drawable = getDrawable(R.drawable.addpoint);
+        Drawable drawable1 = getDrawable(R.drawable.addpoint);
+        Drawable drawable2 = getDrawable(R.drawable.addline);
+        Drawable drawable3 = getDrawable(R.drawable.deleteline);
+        Drawable drawable4 = getDrawable(R.drawable.deletepoint);
+        Drawable drawable5 = getDrawable(R.drawable.clear);
+        Drawable drawable6 = getDrawable(R.drawable.upload);
+        Drawable drawable7 = getDrawable(R.drawable.download);
+        Drawable drawable8 = getDrawable(R.drawable.sumpoints);
+        Drawable drawable9 = getDrawable(R.drawable.sumlines);
+        Drawable drawable10 = getDrawable(R.drawable.hasconnection);
+        Drawable drawable11 = getDrawable(R.drawable.wt);
         List<Drawable> imageViews = new ArrayList<>();
-        imageViews.add(drawable);
-        imageViews.add(drawable);
-        imageViews.add(drawable);
-        imageViews.add(drawable);
-        imageViews.add(drawable);
-        imageViews.add(drawable);
+        imageViews.add(drawable1);
+        imageViews.add(drawable2);
+        imageViews.add(drawable3);
+        imageViews.add(drawable4);
+        imageViews.add(drawable5);
+        imageViews.add(drawable6);
+        imageViews.add(drawable7);
+        imageViews.add(drawable8);
+        imageViews.add(drawable9);
+        imageViews.add(drawable10);
+        imageViews.add(drawable11);
         ActionsAdapter.OnStateClickListener onStateClickListener = new ActionsAdapter.OnStateClickListener() {
             @Override
             public void onStateClick(int position) {
