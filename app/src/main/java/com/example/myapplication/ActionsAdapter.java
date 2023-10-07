@@ -16,13 +16,23 @@ import java.util.List;
 
 public class ActionsAdapter extends RecyclerView.Adapter<ActionsAdapter.FunctionsAdapterHolder> {
 
+    public interface OnStateClickListener{
+        void onStateClick(int position);
+    }
+
+    public static States currentStates = States.ADD_POINT;
+
+
     private final LayoutInflater inflater;
     List<Drawable> imageViews;
 
+    private final OnStateClickListener onStateClickListener;
 
-    public  ActionsAdapter(Context context, List<Drawable> imageViews){
+
+    public  ActionsAdapter(Context context, List<Drawable> imageViews, OnStateClickListener onStateClickListener){
         this.inflater = LayoutInflater.from(context);
         this.imageViews = imageViews;
+        this.onStateClickListener = onStateClickListener;
 
 
     }
@@ -35,10 +45,20 @@ public class ActionsAdapter extends RecyclerView.Adapter<ActionsAdapter.Function
         return new ActionsAdapter.FunctionsAdapterHolder(view);
     }
 
+
+
     @Override
     public void onBindViewHolder(@NonNull FunctionsAdapterHolder holder, int position) {
         Log.d("taggg", String.valueOf(imageViews.size()));
         holder.kartinka.setImageDrawable(imageViews.get(position));
+
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ActionsAdapter.currentStates = States.getState(position);
+            }
+        });
     }
 
     @Override
