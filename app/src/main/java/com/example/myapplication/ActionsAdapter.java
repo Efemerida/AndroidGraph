@@ -88,7 +88,7 @@ public class ActionsAdapter extends RecyclerView.Adapter<ActionsAdapter.Function
 
     @Override
     public int getItemCount() {
-        return 6;
+        return 11;
     }
 
     class FunctionsAdapterHolder extends RecyclerView.ViewHolder {
