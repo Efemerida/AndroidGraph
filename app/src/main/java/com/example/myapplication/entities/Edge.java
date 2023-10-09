@@ -1,5 +1,9 @@
 package com.example.myapplication.entities;
 
+import java.util.ArrayList;
+import java.util.ArrayList;
+import java.util.List;
+
 public class Edge {
 
     private Vertex vertex1;
@@ -14,7 +18,19 @@ public class Edge {
         this.vertex1 = vertex1;
         this.vertex2 = vertex2;
     }
+    public List<Integer> getPlaceForWeight(){
+        List<Integer> res=new ArrayList<>();
+        int offset=70;
+        double forCalc=offset/
+                Math.pow((Math.pow(vertex1.getY()-vertex2.getY(),2))+
+                        Math.pow(vertex2.getX()-vertex1.getX(),2),0.5);
+        int coord1=(int)((vertex2.getX()+vertex1.getX())/2-forCalc*(vertex1.getY()-vertex2.getY()));
 
+        int coord2=(int)((vertex2.getY()+vertex1.getY())/2-forCalc*(vertex2.getX()-vertex1.getX()));
+        res.add(coord1);
+        res.add(coord2);
+        return res;
+    }
     public int getWeight() {
         return weight;
     }
