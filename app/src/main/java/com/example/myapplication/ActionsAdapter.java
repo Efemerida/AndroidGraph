@@ -66,7 +66,8 @@ public class ActionsAdapter extends RecyclerView.Adapter<ActionsAdapter.Function
                 if(position==5){
                     File file = new File("load.txt");
                     try {
-                        fIleService.saveGraph(context);
+                        MainActivity.MyView view1 = BlankFragment.view;
+                        fIleService.saveGraph(context, view1.getGraph());
                         String g = fIleService.loadGraph(file,context);
                         Log.d("taggg", "ggg iss " + g);
                         Graph graph = Graph.loadGraph(g);

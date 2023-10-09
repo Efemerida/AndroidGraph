@@ -2,12 +2,15 @@ package com.example.myapplication.entities;
 
 import android.util.Log;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class Graph {
 
-    public List<Edge> edgeList;
-    public List<Vertex> vertices;
+    public List<Edge> edgeList = new ArrayList<>();
+    public Set<Vertex> vertices = new HashSet<>();
 
 
     public static Graph loadGraph(String string){
@@ -34,5 +37,37 @@ public class Graph {
                 "edgeList=" + edgeList +
                 ", vertices=" + vertices +
                 '}';
+    }
+
+    public int getCountEdge(){
+        return edgeList.size();
+    }
+
+    public int getCountVertex(){
+        return vertices.size();
+    }
+
+    public boolean isAdjacent(Vertex vertex1, Vertex vertex2){
+        for(Edge edge: edgeList){
+            if((edge.getVertex1().equals(vertex1) && edge.getVertex2().equals(vertex2)) ||
+                    (edge.getVertex2().equals(vertex1) && edge.getVertex1().equals(vertex2)))
+                return true;
+        }
+        return false;
+    }
+
+    public Edge getEdgeByAdjacent(Vertex vertex1, Vertex vertex2){
+        for(Edge edge: edgeList){
+            if((edge.getVertex1().equals(vertex1) && edge.getVertex2().equals(vertex2)) ||
+                    (edge.getVertex2().equals(vertex1) && edge.getVertex1().equals(vertex2)))
+                return edge;
+        }
+        return null;
+    }
+
+    public int getWeight(Vertex vertex1, Vertex vertex2){
+        Edge edge = getEdgeByAdjacent(vertex1, vertex2);
+        if(edge!= null) return edge.getWeight();
+        return 0;
     }
 }

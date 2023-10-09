@@ -22,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.myapplication.entities.Edge;
+import com.example.myapplication.entities.Graph;
 import com.example.myapplication.entities.Vertex;
 
 import java.util.ArrayList;
@@ -309,33 +310,20 @@ public class MainActivity extends AppCompatActivity {
             }
             return true;
         }
+
+        public Graph getGraph(){
+            Graph graph = new Graph();
+            for(Edge edge: edges){
+                graph.edgeList.add(edge);
+            }
+            for(Vertex vertex: points){
+                graph.vertices.add(vertex);
+            }
+            return graph;
+        }
+
     }
 
 
-    /*class MyView extends SurfaceView {
 
-        private final SurfaceHolder surfaceHolder;
-
-        private final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        public MyView(Context context) {
-            super(context);
-            surfaceHolder = getHolder();
-            paint.setColor(Color.RED);
-            paint.setStyle(Paint.Style.FILL);
-        }
-
-        @Override
-        public boolean onTouchEvent(MotionEvent event){
-            if(event.getAction() == MotionEvent.ACTION_DOWN){
-                if(surfaceHolder.getSurface().isValid()){
-                    Canvas canvas = surfaceHolder.lockCanvas();
-                    canvas.drawColor(Color.BLACK);
-                    canvas.drawCircle(event.getX(), event.getY(), 50, paint);
-                    surfaceHolder.unlockCanvasAndPost(canvas);
-                }
-            }
-            return false;
-        }
-
-    }*/
 }
