@@ -139,9 +139,9 @@ public class MainActivity extends AppCompatActivity {
         public List<Vertex> points = new ArrayList<>();
         public List<Edge> edges = new ArrayList<>();
 
-        public Edge currEdge = null;
+        public static Edge currEdge = null;
 
-        Edge tmpEdgeForCheck = null;
+        public  static Edge tmpEdgeForCheck = null;
 
         Canvas myCanvas;
 
@@ -224,6 +224,7 @@ public class MainActivity extends AppCompatActivity {
             this.edges.clear();
             this.edges.addAll(graph.edgeList);
             this.points.addAll(graph.vertices);
+            invalidate();
         }
 
         @Override

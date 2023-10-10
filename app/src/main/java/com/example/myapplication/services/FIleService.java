@@ -78,7 +78,7 @@ public class FIleService {
                      new InputStreamReader(Objects.requireNonNull(inputStream)))) {
             String line;
             while ((line = reader.readLine()) != null) {
-                stringBuilder.append(line);
+                stringBuilder.append(line + "\n");
             }
         }
         return stringBuilder.toString();

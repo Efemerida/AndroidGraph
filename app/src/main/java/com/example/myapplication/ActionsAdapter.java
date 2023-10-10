@@ -65,6 +65,8 @@ public class ActionsAdapter extends RecyclerView.Adapter<ActionsAdapter.Function
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                    MainActivity.MyView.currEdge=null;
+                    MainActivity.MyView.tmpEdgeForCheck = null;
 
                 if(position==8){
                     MainActivity.MyView view1 = BlankFragment.view;

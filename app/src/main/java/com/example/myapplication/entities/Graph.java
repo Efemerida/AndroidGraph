@@ -26,27 +26,36 @@ public class Graph {
         for(String edge:edges){
             Edge edgeTmp = new Edge();
             String[] edgeStr = edge.split(" ");
-            Log.d("taggg", "graph is " + edgeStr[0]);
+            Log.d("taggg", "count " + edges.length);
             Vertex vertex1 = new Vertex(Integer.parseInt(edgeStr[0]));
             Vertex vertex2 = new Vertex(Integer.parseInt(edgeStr[1]));
+            for(Vertex vertex: graph.vertices){
+                if(vertex.getNumber()==vertex1.getNumber()) {
+                    vertex1 = vertex;
+                }
+                if(vertex.getNumber()==vertex2.getNumber()) {
+                    vertex2 = vertex;
+                }
+            }
+
+            int w = (int) (Math.random() * (width - 1) + 1);
+            int h = (int) (Math.random() * (height - 1) + 1);
+            vertex1.setX(w);
+            vertex1.setY(h);
+            graph.vertices.add(vertex1);
+            w = (int) (Math.random() * (width - 1) + 1);
+            h = (int) (Math.random() * (height - 1) + 1);
+            vertex2.setX(w);
+            vertex2.setY(h);
+            graph.vertices.add(vertex2);
+
             edgeTmp.setVertex1(vertex1);
             edgeTmp.setVertex2(vertex2);
             edgeTmp.setWeight(Integer.parseInt(edgeStr[2]));
             graph.edgeList.add(edgeTmp);
         }
 
-        for(Edge edge: graph.edgeList){
-            int w = (int) (Math.random() * (width - 1) + 1);
-            int h = (int) (Math.random() * (height - 1) + 1);
-            edge.getVertex1().setX(w);
-            edge.getVertex1().setY(h);
-            graph.vertices.add(edge.getVertex1  ());
-            w = (int) (Math.random() * (width - 1) + 1);
-            h = (int) (Math.random() * (height - 1) + 1);
-            edge.getVertex2().setX(w);
-            edge.getVertex2().setY(h);
-            graph.vertices.add(edge.getVertex2());
-        }
+
         return graph;
 
     }
