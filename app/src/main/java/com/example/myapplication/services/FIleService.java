@@ -5,9 +5,15 @@ import static androidx.core.app.ActivityCompat.startActivityForResult;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.util.Log;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContract;
+import androidx.activity.result.contract.ActivityResultContracts;
+
+import com.example.myapplication.MainActivity;
 import com.example.myapplication.entities.Edge;
 import com.example.myapplication.entities.Graph;
 
@@ -18,11 +24,11 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Objects;
 
 public class FIleService {
 
     public String loadGraph(File file,Context context) throws IOException {
-
 
         FileInputStream stream = context.openFileInput("load.txt");
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(stream));
@@ -37,7 +43,7 @@ public class FIleService {
         return stringBuilder.toString();
     }
 
-    public void saveGraph(Context context, Graph graph) throws IOException {
+    public void saveGraph(Context context, Graph graph, Uri path) throws IOException {
         StringBuilder stringBuilder = new StringBuilder();
         for(Edge edge: graph.edgeList){
             stringBuilder.append(edge.getVertex1().getNumber() + " ");
@@ -46,20 +52,27 @@ public class FIleService {
         }
 
         String string = stringBuilder.toString();
-        FileOutputStream outputStream = context.openFileOutput("load.txt", Context.MODE_PRIVATE);
-        outputStream.write(string.getBytes());
-        outputStream.close();
+
+        File file = new File(path.getEncodedPath());
+        File file1 = new File(Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_DOWNLOADS
+        ), "isMy.txt");
+        Log.d("taggg", "paths is " + file.getAbsolutePath());
+       // file1.createNewFile();
+        Log.d("tagggg", String.valueOf(file.mkdirs()));
+        FileOutputStream fileOutputStream = new FileOutputStream(file1, true);
+        fileOutputStream.write(string.getBytes());
+        fileOutputStream.close();
+//        FileOutputStream outputStream = context.openFileOutput(file.getPath(), Context.MODE_APPEND);
+//        outputStream.write(string.getBytes());
+//        outputStream.close();
 
     }
+    private static final int PICK_PDF_FILE = 2;
 
-    private void openFile(Uri pickerInitialUri) {
-        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-        intent.setType("application/pdf");
+    private void openFile(Uri pickerInitialUri, Context context) {
 
-        // Optionally, specify a URI for the file that should appear in the
-        // system file picker when it loads.
-        intent.putExtra(DocumentsContract.EXTRA_INITIAL_URI, pickerInitialUri);
+
 
     }
 

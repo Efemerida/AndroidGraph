@@ -1,16 +1,23 @@
 package com.example.myapplication;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
@@ -24,11 +31,26 @@ import android.widget.Toast;
 import com.example.myapplication.entities.Edge;
 import com.example.myapplication.entities.Graph;
 import com.example.myapplication.entities.Vertex;
+import com.example.myapplication.services.FIleService;
 
+import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+
+
+    public  static  String mainString;
+
+    public static ActivityResultLauncher<String[]> launcher;
+
+    public static ActivityResultLauncher<String> launcherSave;
+
+    public static Uri pathSave;
+
+
+
 
 
 
@@ -36,6 +58,31 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        MainActivity.launcher = registerForActivityResult(
+                new ActivityResultContracts.OpenDocument(), url -> {
+                    mainString = url.toString();
+                }
+        );
+
+        MainActivity.launcherSave = registerForActivityResult(
+                new ActivityResultContracts.CreateDocument(), url -> {
+                    FIleService fIleService = new FIleService();
+                    MainActivity.MyView view1 = BlankFragment.view;
+                    try {
+                        Log.d("taggg", url.getPath());
+                        Log.d("taggg", url.getEncodedPath() );
+                        Log.d("taggg", url.getPath().substring(9));
+                        fIleService.saveGraph(this, view1.getGraph(), url);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                    pathSave = url;
+                }
+        );
+
+
+
 
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         Drawable drawable1 = getDrawable(R.drawable.addpoint);
@@ -87,6 +134,9 @@ public class MainActivity extends AppCompatActivity {
         public Edge currEdge = null;
 
         Canvas myCanvas;
+
+        public static Graph graphCurrent = null;
+
 
         public MyView(Context context) {
 

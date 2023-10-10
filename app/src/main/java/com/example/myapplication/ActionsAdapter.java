@@ -64,8 +64,11 @@ public class ActionsAdapter extends RecyclerView.Adapter<ActionsAdapter.Function
             @Override
             public void onClick(View view) {
                 if(position==5){
-                    File file = new File("load.txt");
-                    try {
+                    MainActivity.MyView view1 = BlankFragment.view;
+                    MainActivity.launcherSave.launch("graph");
+
+
+                    /*try {
                         MainActivity.MyView view1 = BlankFragment.view;
                         fIleService.saveGraph(context, view1.getGraph());
                         String g = fIleService.loadGraph(file,context);
@@ -74,7 +77,7 @@ public class ActionsAdapter extends RecyclerView.Adapter<ActionsAdapter.Function
                         Log.d("taggg", "graph is " + graph.toString());
                     } catch (IOException e) {
                         throw new RuntimeException(e);
-                    }
+                    }*/
                 }
                 if(position==4){
                     MainActivity.MyView view1 = BlankFragment.view;
