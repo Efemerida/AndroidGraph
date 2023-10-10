@@ -42,11 +42,13 @@ public class Graph {
             int h = (int) (Math.random() * (height - 1) + 1);
             vertex1.setX(w);
             vertex1.setY(h);
+            vertex1.setRadius(50);
             graph.vertices.add(vertex1);
             w = (int) (Math.random() * (width - 1) + 1);
             h = (int) (Math.random() * (height - 1) + 1);
             vertex2.setX(w);
             vertex2.setY(h);
+            vertex2.setRadius(50);
             graph.vertices.add(vertex2);
 
             edgeTmp.setVertex1(vertex1);

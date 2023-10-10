@@ -224,6 +224,7 @@ public class MainActivity extends AppCompatActivity {
             this.edges.clear();
             this.edges.addAll(graph.edgeList);
             this.points.addAll(graph.vertices);
+            Log.d("taggg", "list is " + this.points);
             invalidate();
         }
 
