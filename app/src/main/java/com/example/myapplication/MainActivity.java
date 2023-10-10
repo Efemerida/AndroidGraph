@@ -41,7 +41,6 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
 
-    public  static  String mainString;
 
     public static ActivityResultLauncher<String[]> launcher;
 
@@ -59,9 +58,18 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         MainActivity.launcher = registerForActivityResult(
                 new ActivityResultContracts.OpenDocument(), url -> {
-                    mainString = url.toString();
+                    FIleService fIleService = new FIleService();
+                    MainActivity.MyView view1 = BlankFragment.view;
+                    try {
+                        String graphCode = fIleService.loadGraph(url, this);
+                        view1.loadGraph(Graph.loadGraph(graphCode));
+
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
         );
 
@@ -132,6 +140,8 @@ public class MainActivity extends AppCompatActivity {
         public List<Edge> edges = new ArrayList<>();
 
         public Edge currEdge = null;
+
+        Edge tmpEdgeForCheck = null;
 
         Canvas myCanvas;
 
@@ -209,9 +219,19 @@ public class MainActivity extends AppCompatActivity {
             invalidate();
         }
 
+        public void loadGraph(Graph graph){
+            this.points.clear();
+            this.edges.clear();
+            this.edges.addAll(graph.edgeList);
+            this.points.addAll(graph.vertices);
+        }
+
         @Override
         public boolean onTouchEvent(MotionEvent event){
             if(event.getAction() == MotionEvent.ACTION_DOWN) {
+                if(ActionsAdapter.currentStates==null){
+                    return false;
+                }
                 if(ActionsAdapter.currentStates.equals(States.ADD_POINT)) {
                     touchX = event.getX();
                     touchY = event.getY();
@@ -357,7 +377,99 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                 }
+                else if (ActionsAdapter.currentStates.equals(States.CHECK_POINT)) {
+                    Vertex tmp = null;
+                    for (Vertex point : points) {
+                        if (Math.abs(point.getX() - event.getX()) <= point.getRadius()) {
+                            if (Math.abs(point.getY() - event.getY()) <= point.getRadius()) {
+                                tmp = point;
+                            }
+                        }
+                    }
+
+                    if (tmp != null) {
+                        Edge tmpEdge = null;
+                        for (Edge edge : edges) {
+                            if (edge.getVertex1().equals(tmp) || edge.getVertex2().equals(tmp)) {
+                                if (tmpEdgeForCheck == null) {
+                                    tmpEdgeForCheck = new Edge();
+                                    tmpEdgeForCheck.setVertex1(tmp);
+                                } else {
+                                    if (edge.getVertex1().equals(tmp)) {
+                                        if (edge.getVertex2().equals(tmpEdgeForCheck.getVertex1())) {
+                                            tmpEdge = edge;
+                                        }
+                                    }
+                                    if (edge.getVertex2().equals(tmp)) {
+                                        if (edge.getVertex1().equals(tmpEdgeForCheck.getVertex1())) {
+                                            tmpEdge = edge;
+                                        }
+                                    }
+                                    if(tmpEdge==null){
+                                        Toast.makeText(getContext(), "Нет ребро", Toast.LENGTH_LONG).show();
+                                        Log.d("tagg", "Yes rerfdsefsv");
+                                        tmpEdgeForCheck = null;
+                                    }
+                                }
+                            }
+                        }
+                        if (tmpEdge != null) {
+                            Toast.makeText(getContext(), "Есть ребро", Toast.LENGTH_LONG).show();
+                            Log.d("tagg", "Yes rerfdsefsv");
+                            tmpEdgeForCheck = null;
+                            return true;
+                        }
+
+                    }
+                }
+
+                else if (ActionsAdapter.currentStates.equals(States.CHECK_WEIGHT_2)) {
+                    Vertex tmp = null;
+                    for (Vertex point : points) {
+                        if (Math.abs(point.getX() - event.getX()) <= point.getRadius()) {
+                            if (Math.abs(point.getY() - event.getY()) <= point.getRadius()) {
+                                tmp = point;
+                            }
+                        }
+                    }
+
+                    if (tmp != null) {
+                        Edge tmpEdge = null;
+                        for (Edge edge : edges) {
+                            if (edge.getVertex1().equals(tmp) || edge.getVertex2().equals(tmp)) {
+                                if (tmpEdgeForCheck == null) {
+                                    tmpEdgeForCheck = new Edge();
+                                    tmpEdgeForCheck.setVertex1(tmp);
+                                } else {
+                                    if (edge.getVertex1().equals(tmp)) {
+                                        if (edge.getVertex2().equals(tmpEdgeForCheck.getVertex1())) {
+                                            tmpEdge = edge;
+                                        }
+                                    }
+                                    if (edge.getVertex2().equals(tmp)) {
+                                        if (edge.getVertex1().equals(tmpEdgeForCheck.getVertex1())) {
+                                            tmpEdge = edge;
+                                        }
+                                    }
+                                    if(tmpEdge==null){
+                                        Toast.makeText(getContext(), "Нет ребра", Toast.LENGTH_LONG).show();
+                                        Log.d("tagg", "Yes rerfdsefsv");
+                                        tmpEdgeForCheck = null;
+                                    }
+                                }
+                            }
+                        }
+                        if (tmpEdge != null) {
+                            Toast.makeText(getContext(), String.valueOf(tmpEdge.getWeight()), Toast.LENGTH_LONG).show();
+                            Log.d("tagg", "Yes rerfdsefsv");
+                            tmpEdgeForCheck = null;
+                            return true;
+                        }
+
+                    }
+                }
             }
+
             return true;
         }
 

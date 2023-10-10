@@ -2,12 +2,14 @@ package com.example.myapplication;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.media.MediaMetadata;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -63,21 +65,25 @@ public class ActionsAdapter extends RecyclerView.Adapter<ActionsAdapter.Function
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                if(position==8){
+                    MainActivity.MyView view1 = BlankFragment.view;
+                    Toast.makeText(context, String.valueOf(view1.getGraph().getCountEdge()), Toast.LENGTH_SHORT).show();                }
+
+                if(position==7){
+                    MainActivity.MyView view1 = BlankFragment.view;
+                    Toast.makeText(context, String.valueOf(view1.getGraph().getCountVertex()), Toast.LENGTH_SHORT).show();
+                }
+
+                if(position==6){
+                    MainActivity.MyView view1 = BlankFragment.view;
+                    String[] strings = {"text/*"};
+                    MainActivity.launcher.launch(strings);
+                }
+
                 if(position==5){
                     MainActivity.MyView view1 = BlankFragment.view;
                     MainActivity.launcherSave.launch("graph");
-
-
-                    /*try {
-                        MainActivity.MyView view1 = BlankFragment.view;
-                        fIleService.saveGraph(context, view1.getGraph());
-                        String g = fIleService.loadGraph(file,context);
-                        Log.d("taggg", "ggg iss " + g);
-                        Graph graph = Graph.loadGraph(g);
-                        Log.d("taggg", "graph is " + graph.toString());
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }*/
                 }
                 if(position==4){
                     MainActivity.MyView view1 = BlankFragment.view;

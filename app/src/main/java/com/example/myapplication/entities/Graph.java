@@ -2,9 +2,13 @@ package com.example.myapplication.entities;
 
 import android.util.Log;
 
+import com.example.myapplication.BlankFragment;
+import com.example.myapplication.MainActivity;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 
 public class Graph {
@@ -15,6 +19,9 @@ public class Graph {
 
     public static Graph loadGraph(String string){
         Graph graph = new Graph();
+        MainActivity.MyView view = BlankFragment.view;
+        int width = view.getWidth();
+        int height = view.getHeight();
         String[] edges = string.split("\n");
         for(String edge:edges){
             Edge edgeTmp = new Edge();
@@ -26,6 +33,19 @@ public class Graph {
             edgeTmp.setVertex2(vertex2);
             edgeTmp.setWeight(Integer.parseInt(edgeStr[2]));
             graph.edgeList.add(edgeTmp);
+        }
+
+        for(Edge edge: graph.edgeList){
+            int w = (int) (Math.random() * (width - 1) + 1);
+            int h = (int) (Math.random() * (height - 1) + 1);
+            edge.getVertex1().setX(w);
+            edge.getVertex1().setY(h);
+            graph.vertices.add(edge.getVertex1  ());
+            w = (int) (Math.random() * (width - 1) + 1);
+            h = (int) (Math.random() * (height - 1) + 1);
+            edge.getVertex2().setX(w);
+            edge.getVertex2().setY(h);
+            graph.vertices.add(edge.getVertex2());
         }
         return graph;
 
