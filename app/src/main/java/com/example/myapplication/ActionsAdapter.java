@@ -85,7 +85,7 @@ public class ActionsAdapter extends RecyclerView.Adapter<ActionsAdapter.Function
 
                 if(position==5){
                     MainActivity.MyView view1 = BlankFragment.view;
-                    MainActivity.launcherSave.launch("graph");
+                    MainActivity.launcherSave.launch("graph.txt");
                 }
                 if(position==4){
                     MainActivity.MyView view1 = BlankFragment.view;
