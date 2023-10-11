@@ -141,11 +141,9 @@ public class MainActivity extends AppCompatActivity {
 
         public static Edge currEdge = null;
 
-        public  static Edge tmpEdgeForCheck = null;
+        public static Vertex vertexTmp = null;
 
         Canvas myCanvas;
-
-        public static Graph graphCurrent = null;
 
 
         public MyView(Context context) {
@@ -390,36 +388,21 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     if (tmp != null) {
-                        Edge tmpEdge = null;
-                        for (Edge edge : edges) {
-                            if (edge.getVertex1().equals(tmp) || edge.getVertex2().equals(tmp)) {
-                                if (tmpEdgeForCheck == null) {
-                                    tmpEdgeForCheck = new Edge();
-                                    tmpEdgeForCheck.setVertex1(tmp);
-                                } else {
-                                    if (edge.getVertex1().equals(tmp)) {
-                                        if (edge.getVertex2().equals(tmpEdgeForCheck.getVertex1())) {
-                                            tmpEdge = edge;
-                                        }
-                                    }
-                                    if (edge.getVertex2().equals(tmp)) {
-                                        if (edge.getVertex1().equals(tmpEdgeForCheck.getVertex1())) {
-                                            tmpEdge = edge;
-                                        }
-                                    }
-                                    if(tmpEdge==null){
-                                        Toast.makeText(getContext(), "Нет ребро", Toast.LENGTH_LONG).show();
-                                        Log.d("tagg", "Yes rerfdsefsv");
-                                        tmpEdgeForCheck = null;
-                                    }
-                                }
-                            }
+
+                        if(vertexTmp==null){
+                            vertexTmp = tmp;
                         }
-                        if (tmpEdge != null) {
-                            Toast.makeText(getContext(), "Есть ребро", Toast.LENGTH_LONG).show();
-                            Log.d("tagg", "Yes rerfdsefsv");
-                            tmpEdgeForCheck = null;
+                        else if(vertexTmp==tmp){
                             return true;
+                        }
+                        else{
+
+                            if(this.getGraph().isAdjacent(vertexTmp, tmp))
+                                Toast.makeText(getContext(), "Вершины смежные", Toast.LENGTH_LONG).show();
+                            else
+                                Toast.makeText(getContext(), "Вершины не смежные", Toast.LENGTH_LONG).show();
+
+                            vertexTmp = null;
                         }
 
                     }
@@ -436,38 +419,23 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     if (tmp != null) {
-                        Edge tmpEdge = null;
-                        for (Edge edge : edges) {
-                            if (edge.getVertex1().equals(tmp) || edge.getVertex2().equals(tmp)) {
-                                if (tmpEdgeForCheck == null) {
-                                    tmpEdgeForCheck = new Edge();
-                                    tmpEdgeForCheck.setVertex1(tmp);
-                                } else {
-                                    if (edge.getVertex1().equals(tmp)) {
-                                        if (edge.getVertex2().equals(tmpEdgeForCheck.getVertex1())) {
-                                            tmpEdge = edge;
-                                        }
-                                    }
-                                    if (edge.getVertex2().equals(tmp)) {
-                                        if (edge.getVertex1().equals(tmpEdgeForCheck.getVertex1())) {
-                                            tmpEdge = edge;
-                                        }
-                                    }
-                                    if(tmpEdge==null){
-                                        Toast.makeText(getContext(), "Нет ребра", Toast.LENGTH_LONG).show();
-                                        Log.d("tagg", "Yes rerfdsefsv");
-                                        tmpEdgeForCheck = null;
-                                    }
-                                }
-                            }
+
+                        if(vertexTmp==null){
+                            vertexTmp = tmp;
                         }
-                        if (tmpEdge != null) {
-                            Toast.makeText(getContext(), String.valueOf(tmpEdge.getWeight()), Toast.LENGTH_LONG).show();
-                            Log.d("tagg", "Yes rerfdsefsv");
-                            tmpEdgeForCheck = null;
+                        else if(vertexTmp==tmp){
                             return true;
                         }
+                        else{
 
+                            int weight = this.getGraph().getWeight(vertexTmp, tmp);
+                            if(weight==0)
+                                Toast.makeText(getContext(), "Ребра не существует", Toast.LENGTH_LONG).show();
+                            else
+                                Toast.makeText(getContext(), String.valueOf(weight), Toast.LENGTH_LONG).show();
+
+                            vertexTmp = null;
+                        }
                     }
                 }
             }
